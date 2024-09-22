@@ -18,5 +18,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/mikhama/core-js-101.git"
+  },
+  "dependencies": {
+    "num-words": "^1.2.3"
   }
 }
