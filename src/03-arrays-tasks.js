@@ -243,8 +243,7 @@ function getMovingSum(arr) {
   let count = 0;
   return arr.map((elem) => {
     count += elem;
-    elem = count;
-    return elem;
+    return count;
   });
 }
 
@@ -330,27 +329,8 @@ function getPositivesCount(arr) {
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
 function sortDigitNamesByNumericOrder(arr) {
-  const obj = {'zero':0,
-             'one': 1,
-             'two': 2,
-             'three': 3,
-             'four': 4,
-             'five': 5,
-             'six': 6,
-             'seven': 7,
-             'eight': 8,
-             'nine': 9
-            }
-  let arrNew = [];
-  for (let elem of arr) {
-      obj[elem] !== undefined ? arrNew.push(obj[elem]) : arrNew;
-  }
-  arrNew.sort((a,b) => a - b);
-  let res = [];
-  for (let elem of arrNew) {
-    let key = Object.keys(obj).find(k => obj[k] === elem);
-    res.push(key);
-  }
+  const obj = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+  const res = arr.sort((a, b) => obj.indexOf(a) - obj.indexOf(b));
   return res;
 }
 
@@ -367,9 +347,7 @@ function sortDigitNamesByNumericOrder(arr) {
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
 function getItemsSum(arr) {
-  return arr.reduce((acc, elem) => {
-    acc + elem;
-  }, 0);
+  return arr.reduce((acc, elem) => acc + elem);
 }
 
 /**
@@ -385,9 +363,12 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-  return arr.reduce((acc, elem) => {
-    elem === false ? acc += 1 : acc;
-  }, 0);
+  const res = arr.reduce((acc, elem) => {
+    if (elem === false) {
+      return acc += 1;
+    }
+  });
+  return res;
 }
 
 /**
@@ -405,7 +386,7 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurrences(arr, item) {
-  return arr.filter(elem => elem === item).length;
+  return arr.filter((elem) => elem === item).length;
 }
 
 /**
