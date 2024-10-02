@@ -36,7 +36,7 @@ function findElement(arr, value) {
  */
 function generateOdds(len) {
   const arr = [];
-  for (let i = 1; i <= len; i += 1) {
+  for (let i = 1; i <= len * 2; i += 1) {
     if (i % 2 !== 0) {
       arr.push(i);
     }
@@ -57,7 +57,7 @@ function generateOdds(len) {
  *    [] => []
  */
 function doubleArray(arr) {
-  return arr.repeat(2);
+  return [...arr, ...arr];
 }
 
 /**
@@ -104,7 +104,7 @@ function getArrayOfStrings(arr) {
  *    [ false, 0, NaN, '', undefined ]   => [ ]
  */
 function removeFalsyValues(arr) {
-  return arr.filter((elem) => elem === true);
+  return arr.filter((elem) => Boolean(elem) === true);
 }
 
 /**
@@ -163,8 +163,7 @@ function insertItem(arr, item, index) {
  *    [ 'a', 'b', 'c', 'd'], 3  => [ 'a', 'b', 'c' ]
  */
 function getHead(arr, n) {
-  arr.splice(0, n);
-  return arr;
+  return arr.splice(0, n);
 }
 
 /**
@@ -363,12 +362,7 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-  const res = arr.reduce((acc, elem) => {
-    if (elem === false) {
-      return acc += 1;
-    }
-  });
-  return res;
+  return arr.filter((elem) => elem === false).length;
 }
 
 /**
