@@ -272,8 +272,17 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const digits = ccn.toString().split('').reverse().map((digit, index) => {
+    let num = parseInt(digit, 10);
+    if (index % 2 === 1) {
+      num *= 2;
+      if (num > 9) num -= 9;
+    }
+    return num;
+  });
+  const sum = digits.reduce((acc, digit) => acc + digit, 0);
+  return sum % 10 === 0;
 }
 
 /**
@@ -290,8 +299,9 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const sum = String(num).split('').reduce((count, elem) => count + +elem, 0);
+  return sum < 9 ? sum : +String(sum)[0] + +String(sum)[1];
 }
 
 /**
@@ -315,8 +325,21 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const stack = [];
+  const open = ['[', '{', '(', '<'];
+  const close = [']', '}', ')', '>'];
+
+  for (let i = 0; i <= str.length; i += 1) {
+    if (open.includes(str[i])) {
+      stack.push(str[i]);
+    } else if (close.includes(str[i])) {
+      if (stack.length === 0 || close.indexOf(str[i]) !== open.indexOf(stack.pop())) {
+        return false;
+      }
+    }
+  }
+  return stack.length === 0;
 }
 
 /**
@@ -339,8 +362,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 /**
@@ -355,8 +378,22 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const commonDirs = [];
+  const givenDirs = pathes.map((path) => path.split('/'));
+
+  for (let i = 0; i < givenDirs[0].length; i += 1) {
+    const currentDir = givenDirs[0][i];
+
+    if (givenDirs.every((dir) => dir[i] === currentDir)) {
+      commonDirs.push(currentDir);
+    } else {
+      break;
+    }
+  }
+
+  if (commonDirs.length > 0) return commonDirs.join('/').concat('', '/');
+  return '';
 }
 
 /**
@@ -377,8 +414,24 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const m1Columns = m1[0].length;
+  const m1Rows = m1.length;
+
+  const m2Columns = m2[0].length;
+
+  // if (m1Rows !==  m2Columns) needed to check if multiplication is possible?
+
+  const matrixProduct = Array(m1Rows).fill().map(() => Array(m2Columns).fill(0));
+  for (let i = 0; i < m1Rows; i += 1) {
+    for (let j = 0; j < m2Columns; j += 1) {
+      for (let k = 0; k < m1Columns; k += 1) {
+        matrixProduct[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+
+  return matrixProduct;
 }
 
 /**
@@ -411,8 +464,32 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(p) {
+  if (p[0][0] === p[0][1] && p[0][1] === p[0][2] && p[0][0] !== undefined) {
+    return p[0][0];
+  }
+  if (p[1][0] === p[1][1] && p[1][1] === p[1][2] && p[1][0] !== undefined) {
+    return p[1][0];
+  }
+  if (p[2][0] === p[2][1] && p[2][1] === p[2][2] && p[2][0] !== undefined) {
+    return p[2][0];
+  }
+  if (p[0][0] === p[1][0] && p[1][0] === p[2][0] && p[0][0] !== undefined) {
+    return p[0][0];
+  }
+  if (p[0][1] === p[1][1] && p[1][1] === p[2][1] && p[0][1] !== undefined) {
+    return p[0][1];
+  }
+  if (p[0][2] === p[1][2] && p[1][2] === p[2][2] && p[0][2] !== undefined) {
+    return p[0][2];
+  }
+  if (p[0][0] === p[1][1] && p[1][1] === p[2][2] && p[0][0] !== undefined) {
+    return p[0][0];
+  }
+  if (p[0][2] === p[1][1] && p[1][1] === p[2][0] && p[0][2] !== undefined) {
+    return p[0][2];
+  }
+  return undefined;
 }
 
 module.exports = {
